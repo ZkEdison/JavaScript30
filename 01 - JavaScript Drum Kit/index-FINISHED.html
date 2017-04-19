@@ -58,22 +58,43 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+
+  /**
+   * 动画结束时触发transitionend 的回调 如果它的 propertyName = transform 则移除目标元素的playing
+   * @method <removeTransition></removeTransition>
+   * @param  {[type]}         e [description]
+   * @return {[type]}           [description]
+   */
   function removeTransition(e) {
+    // console.log(e)
+    // console.log(e.propertyName);
+    // console.log(e.getAttribute);
     if (e.propertyName !== 'transform') return;
     e.target.classList.remove('playing');
   }
-
+ /**
+  * 播放声音
+  * @method playSound
+  * @param  {[type]}  e [description]
+  * @return {[type]}    [description]
+  */
   function playSound(e) {
+    console.log('按下键盘上的键:' + e.keyCode)
     const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
     const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
     if (!audio) return;
-
+    // 给相应的元素 classList 中添加playing 样式
     key.classList.add('playing');
+    // currentTime ???
     audio.currentTime = 0;
+    console.log(audio)
+    // 播放音频
+    console.dir(audio)
     audio.play();
   }
 
   const keys = Array.from(document.querySelectorAll('.key'));
+  // 给所有元素监听事件  当动画结束的时候 移除playing样式
   keys.forEach(key => key.addEventListener('transitionend', removeTransition));
   window.addEventListener('keydown', playSound);
 </script>
