@@ -15,7 +15,7 @@
     <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
 
     <label for="base">Base Color</label>
-    <input id="base" type="color" name="base" value="#ffc600">
+    <input id="base" type="color" name="baseColor" value="#ffc600">
   </div>
 
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
@@ -23,9 +23,9 @@
   <style>
 
     :root {
-      --spacing: 10px ;
+      --spacing: 1px ;
       --blur: 10px ;
-      --baseColor: #193549 ;
+      --baseColor: #ffc600 ;
     }
     img {
       filter: blur(var(--blur));
@@ -59,6 +59,21 @@
   </style>
 
   <script>
+    const inputs = document.querySelectorAll('.controls input')
+    console.log(inputs)
+
+    function handleUpdate(e) {
+      console.log(this == e.target)
+      console.log(this.dataset)
+      const suffix = this.dataset.sizing || ''
+      console.log(suffix)
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix)
+      console.log(`--${this.name}:`+ this.value + suffix)
+    }
+    inputs.forEach(input => {
+      input.addEventListener('change', handleUpdate)
+      input.addEventListener('mousemove', handleUpdate)
+    })
   </script>
 
 </body>
